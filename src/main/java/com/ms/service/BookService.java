@@ -1,17 +1,17 @@
 package com.ms.service;
 
 import com.ms.entities.Book;
-import com.ms.exceptions.BookNotFoundExpection;
+import com.ms.exceptions.BookNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BookService {
 
     Book save(Book book);
-    Book findOne(int id) throws BookNotFoundExpection;
-    List<Book> findAll();
-    List<Book> findByTitle(String title);
-    List<Book> findByAuthor(String author);
+    Book getBookById(int id) throws BookNotFoundException;
+    List<Book> getAll();
+    List<Book> getBookByTitle(String title);
+    List<Book> getBookByAuthor(String author);
+    void updateBook(Book book);
     void remove(int id);
 }

@@ -1,15 +1,16 @@
 package com.ms.service.impl;
 
 import com.ms.entities.Book;
-import com.ms.exceptions.BookNotFoundExpection;
+import com.ms.exceptions.BookNotFoundException;
 import com.ms.repository.BookRepository;
 import com.ms.service.BookService;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -17,24 +18,30 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private EntityManager entityManager;
+
     @Override
     public Book save(Book book) {
         return bookRepository.save(book);
     }
 
     @Override
-    public Book findOne(int id) throws BookNotFoundExpection {
-        Optional<Book> result = bookRepository.findById(id);
-        if (result.isPresent()) {
-            return result.get();
-        }
-        throw new BookNotFoundExpection("Could not find any book by ID " + id);
+    public Book getBookById(int id) throws BookNotFoundException {
+        return bookRepository
+                .findById(id)
+                .orElseThrow(() -> new BookNotFoundException("Book not found."));
     }
 
     @Override
-    public List<Book> findAll() {
+    public List<Book> getAll() {
+        return bookRepository.findAll();
+    }
 
-        List<Book> bookList = (List<Book>) bookRepository.findAll();
+    @Override
+    public List<Book> getBookByTitle(String title) {
+
+        List<Book> bookList = bookRepository.getBookByTitleContaining(title);
 
         List<Book> availableBookList = new ArrayList<>();
 
@@ -47,9 +54,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> findByTitle(String title) {
-
-        List<Book> bookList = bookRepository.findByTitleContaining(title);
+    public List<Book> getBookByAuthor(String author) {
+        List<Book> bookList = bookRepository.getBookByAuthor(author);
 
         List<Book> availableBookList = new ArrayList<>();
 
@@ -62,18 +68,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> findByAuthor(String author) {
-        List<Book> bookList = bookRepository.findByAuthor(author);
-
-        List<Book> availableBookList = new ArrayList<>();
-
-        for (Book book : bookList) {
-            if (book.isActive()) {
-                availableBookList.add(book);
-            }
+    public void updateBook(Book book) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        currentSession.saveOrUpdate(book);
         }
-        return availableBookList;
-    }
 
     @Override
     public void remove(int id) {

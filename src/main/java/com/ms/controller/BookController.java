@@ -1,7 +1,7 @@
 package com.ms.controller;
 
 import com.ms.entities.Book;
-import com.ms.exceptions.BookNotFoundExpection;
+import com.ms.exceptions.BookNotFoundException;
 import com.ms.service.BookService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/api/books")
 public class BookController {
 
     private static final Logger logger = LogManager.getLogger(BookController.class);
@@ -29,46 +29,46 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @GetMapping("/bookList")
-    public List<Book> getBookList() {
+    @GetMapping(value = {"", "/"})
+    public List<Book> getBooks() {
         logger.info("Retrieving all books.");
-        return bookService.findAll();
+        return bookService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Book getBook(@PathVariable("id") int id) throws BookNotFoundExpection {
+    public Book getBook(@PathVariable("id") int id) throws BookNotFoundException {
         logger.info("Retrieving book by ID: " + id);
-        return bookService.findOne(id);
+        return bookService.getBookById(id);
     }
 
     @GetMapping("/search/title")
     public List<Book> searchByTitle(@RequestBody String keyword) {
-        return bookService.findByTitle(keyword);
+        return bookService.getBookByTitle(keyword);
     }
 
     @GetMapping("/search/author")
     public List<Book> searchByAuthor(@RequestBody String keyword) {
-        return bookService.findByAuthor(keyword);
+        return bookService.getBookByAuthor(keyword);
     }
 
-    @PostMapping("/add")
+    @PostMapping("")
     public Book addBook(@RequestBody Book book) {
         logger.info("Book has been added.");
         return bookService.save(book);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/")
     public Book updateBook(@RequestBody Book book) {
-        logger.info("Updating book.");
-        return bookService.save(book);
+        bookService.save(book);
+        return book;
     }
 
-    @PostMapping("/add/image")
-    public ResponseEntity uploadImage(@RequestParam("id") int id,
-                                      HttpServletResponse httpServletResponse,
-                                      HttpServletRequest httpServletRequest) {
+    @PostMapping("/uploadImage")
+    public ResponseEntity<?> uploadImage(@RequestParam("id") int id,
+                                         HttpServletResponse httpServletResponse,
+                                         HttpServletRequest httpServletRequest) {
         try {
-            Book book = bookService.findOne(id);
+            Book book = bookService.getBookById(id);
             MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) httpServletRequest;
             Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
             MultipartFile multipartFile = multipartHttpServletRequest.getFile(iterator.next());
@@ -79,19 +79,19 @@ public class BookController {
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File("src/main/resources/static/image/book" + fileName)));
             stream.write(bytes);
             stream.close();
-            return new ResponseEntity("Upload File - status: Success!", HttpStatus.OK);
-        } catch (Exception | BookNotFoundExpection exception) {
+            return new ResponseEntity<>("Upload File - status: Success!", HttpStatus.OK);
+        } catch (Exception | BookNotFoundException exception) {
             exception.printStackTrace();
-            return new ResponseEntity("Upload File - status: Failed.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Upload File - status: Failed.", HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PostMapping("/update/image")
-    public ResponseEntity updateImage(@RequestParam("id") int id,
-                                      HttpServletResponse httpServletResponse,
-                                      HttpServletRequest httpServletRequest) {
+    @PutMapping("/updateImage/{id}")
+    public ResponseEntity<?> updateImage(@RequestParam("id") int id,
+                                         HttpServletResponse httpServletResponse,
+                                         HttpServletRequest httpServletRequest) {
         try {
-            Book book = bookService.findOne(id);
+            Book book = bookService.getBookById(id);
             MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) httpServletRequest;
             Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
             MultipartFile multipartFile = multipartHttpServletRequest.getFile(iterator.next());
@@ -99,24 +99,25 @@ public class BookController {
 
             Files.delete(Paths.get("src/main/resources/static/image/book" + fileName));
 
-            byte[] bytes = multipartFile.getBytes();
+            byte[] bytes = new byte[0];
+            if (multipartFile != null) {
+                bytes = multipartFile.getBytes();
+            }
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File("src/main/resources/static/image/book" + fileName)));
             stream.write(bytes);
             stream.close();
-            return new ResponseEntity("Upload File - status: Success!", HttpStatus.OK);
-        } catch (Exception | BookNotFoundExpection exception) {
+            return new ResponseEntity<>("Upload File - status: Success!", HttpStatus.OK);
+        } catch (Exception | BookNotFoundException exception) {
             exception.printStackTrace();
-            return new ResponseEntity("Upload File - status: Failed.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Upload File - status: Failed.", HttpStatus.BAD_REQUEST);
         }
     }
 
 
-            @DeleteMapping("/remove")
-            public ResponseEntity removeBook ( @RequestBody int id) throws IOException {
-                logger.info("Deleting book with ID: " + id);
-                bookService.remove(id);
-                String fileName = id + ".png";
-                Files.delete(Paths.get("src/main/resources/static/image/book" + fileName));
-                return new ResponseEntity("Remove Success", HttpStatus.OK);
-            }
-        }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteBookById(@PathVariable String id) throws IOException {
+        logger.info("Deleting book with ID: " + id);
+        bookService.remove(Integer.parseInt(id));
+        return new ResponseEntity<>("Remove Success", HttpStatus.OK);
+    }
+}

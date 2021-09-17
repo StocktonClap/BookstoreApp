@@ -2,12 +2,10 @@ package com.ms.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
 public class UserShipping implements Serializable {
 
     public static final long serialVersionUID = 767123L;
@@ -18,6 +16,7 @@ public class UserShipping implements Serializable {
     private String receiverName;
     private String street;
     private String city;
+    private String postCode;
     private Boolean defaultShipping;
 
     @ManyToOne
@@ -75,6 +74,15 @@ public class UserShipping implements Serializable {
 
     public UserShipping setUser(User user) {
         this.user = user;
+        return this;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public UserShipping setPostCode(String postCode) {
+        this.postCode = postCode;
         return this;
     }
 }

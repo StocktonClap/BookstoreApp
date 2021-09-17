@@ -18,6 +18,9 @@ public class UserRole implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
+    public UserRole(User user, Role role) {
+    }
+
     public UserRole() {
     }
 
