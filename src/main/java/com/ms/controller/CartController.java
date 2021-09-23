@@ -6,7 +6,7 @@ import com.ms.entities.ShoppingCart;
 import com.ms.entities.User;
 import com.ms.exceptions.BookNotFoundException;
 import com.ms.service.BookService;
-import com.ms.service.CartITemService;
+import com.ms.service.CartItemService;
 import com.ms.service.ShoppingCartService;
 import com.ms.service.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -32,7 +32,7 @@ public class CartController {
     private BookService bookService;
 
     @Autowired
-    private CartITemService cartITemService;
+    private CartItemService cartITemService;
 
     @Autowired
     private ShoppingCartService shoppingCartService;

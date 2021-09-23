@@ -14,9 +14,10 @@ public class BillingAddress {
     private String billingAddressStreet;
     private String billingAddressCity;
 
-    //@OneToOne
-    //@JsonIgnore
-    //private Order order;
+
+    @OneToOne
+    @JsonIgnore
+    private Order order;
 
     public int getId() {
         return id;
@@ -54,4 +55,12 @@ public class BillingAddress {
         return this;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
+    public BillingAddress setOrder(Order order) {
+        this.order = order;
+        return this;
+    }
 }

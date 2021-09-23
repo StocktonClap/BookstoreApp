@@ -3,7 +3,7 @@ package com.ms.service.impl;
 import com.ms.entities.CartItem;
 import com.ms.entities.ShoppingCart;
 import com.ms.repository.ShoppingCartRepository;
-import com.ms.service.CartITemService;
+import com.ms.service.CartItemService;
 import com.ms.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Autowired
-    private CartITemService cartITemService;
+    private CartItemService cartITemService;
 
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;

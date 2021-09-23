@@ -27,6 +27,10 @@ public class CartItem {
     @JsonIgnore
     private ShoppingCart shoppingCart;
 
+    @ManyToOne
+    @JsonIgnore
+    private Order order;
+
     public int getId() {
         return id;
     }
@@ -76,6 +80,15 @@ public class CartItem {
 
     public CartItem setBook(Book book) {
         this.book = book;
+        return this;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public CartItem setOrder(Order order) {
+        this.order = order;
         return this;
     }
 }

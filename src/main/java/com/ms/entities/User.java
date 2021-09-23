@@ -39,6 +39,10 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<UserPayment> userPaymentList;
 
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Order> orderList;
+
     public int getId() {
         return id;
     }
@@ -147,6 +151,15 @@ public class User implements UserDetails {
 
     public User setShoppingCart(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
+        return this;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public User setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
         return this;
     }
 

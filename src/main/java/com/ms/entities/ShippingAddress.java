@@ -16,10 +16,9 @@ public class ShippingAddress {
     private String city;
     private String postCode;
 
-    //  TODO
-    //@OneToOne  // zrobić gety i sety po encji Order
-    //@JsonIgnore
-    //private Order order;
+    @OneToOne
+    @JsonIgnore
+    private Order order;
 
     public int getId() {
         return id;
@@ -66,4 +65,12 @@ public class ShippingAddress {
         return this;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
+    public ShippingAddress setOrder(Order order) {
+        this.order = order;
+        return this;
+    }
 }

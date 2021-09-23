@@ -3,7 +3,7 @@ package com.ms.service.impl;
 import com.ms.entities.*;
 import com.ms.repository.BookToCartItemRepository;
 import com.ms.repository.CartItemRepository;
-import com.ms.service.CartITemService;
+import com.ms.service.CartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.math.RoundingMode;
 import java.util.List;
 
 @Service
-public class CartItemServiceImpl implements CartITemService {
+public class CartItemServiceImpl implements CartItemService {
 
     @Autowired
     private CartItemRepository cartItemRepository;
@@ -26,7 +26,7 @@ public class CartItemServiceImpl implements CartITemService {
     }
 
     @Override
-    public CartItem addBookToCartItem(Book book, User user, int quantity) {
+    public void addBookToCartItem(Book book, User user, int quantity) {
 
         List<CartItem> cartItemList = getByShoppingCart(user.getShoppingCart());
 
@@ -35,7 +35,7 @@ public class CartItemServiceImpl implements CartITemService {
                 cartItem.setQuantity(cartItem.getQuantity() + quantity);
                 cartItem.setSubTotal(BigDecimal.valueOf(book.getPrice()).multiply(new BigDecimal(quantity)));
                 cartItemRepository.save(cartItem);
-                return cartItem;
+                return;
             }
         }
 
@@ -51,7 +51,6 @@ public class CartItemServiceImpl implements CartITemService {
         bookToCartItem.setCartItem(cartItem);
         bookToCartItemRepository.save(bookToCartItem);
 
-        return cartItem;
     }
 
     @Override
@@ -65,17 +64,21 @@ public class CartItemServiceImpl implements CartITemService {
     }
 
     @Override
-    public CartItem updateCartItem(CartItem cartItem) {
+    public void updateCartItem(CartItem cartItem) {
         BigDecimal updateCart = BigDecimal.valueOf(cartItem.getBook().getPrice()).multiply(new BigDecimal(cartItem.getQuantity()));
         updateCart = updateCart.setScale(2, RoundingMode.HALF_UP);
         cartItem.setSubTotal(updateCart);
         cartItemRepository.save(cartItem);
-        return cartItem;
     }
 
     @Override
     public void removeCartItem(CartItem cartItem) {
         bookToCartItemRepository.deleteByCartItem(cartItem);
         cartItemRepository.delete(cartItem);
+    }
+
+    @Override
+    public List<CartItem> getByOrder(Order order) {
+        return cartItemRepository.getCartItemByOrder(order);
     }
 }
