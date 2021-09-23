@@ -1,11 +1,9 @@
 package com.ms.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-public class UserRole implements Serializable {
-    private static final long serialVersionUID = 395827L;
+public class UserRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

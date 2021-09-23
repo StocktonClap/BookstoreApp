@@ -3,16 +3,14 @@ package com.ms.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-public class UserPayment implements Serializable {
-
-    private static final long serialVersionUID = 680812L;
+public class UserPayment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String type;
     private String cardName;
     private int cardNumber;

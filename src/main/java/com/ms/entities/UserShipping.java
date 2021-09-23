@@ -3,12 +3,9 @@ package com.ms.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-public class UserShipping implements Serializable {
-
-    public static final long serialVersionUID = 767123L;
+public class UserShipping {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

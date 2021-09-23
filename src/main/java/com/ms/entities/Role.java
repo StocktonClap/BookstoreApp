@@ -6,8 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Role implements Serializable {
-    private static final long serialVersionUID = 677321L;
+public class Role {
 
     @Id
     private int roleId;

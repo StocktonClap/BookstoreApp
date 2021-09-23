@@ -3,12 +3,9 @@ package com.ms.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-public class BillingAddress implements Serializable {
-
-    public static final long serialVersionUID = 234558L;
+public class BillingAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

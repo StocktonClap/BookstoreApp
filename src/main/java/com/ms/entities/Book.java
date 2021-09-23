@@ -3,13 +3,10 @@ package com.ms.entities;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
-public class Book implements Serializable {
-
-    public static final long serialVersionUID = 245489L;
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

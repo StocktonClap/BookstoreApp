@@ -1,12 +1,9 @@
 package com.ms.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-public class BookToCartItem implements Serializable {
-
-    private static final long serialVersionUID = 123566L;
+public class BookToCartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

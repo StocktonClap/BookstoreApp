@@ -2,19 +2,12 @@ package com.ms.entities;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import java.io.Serializable;
-
-public class Authority implements GrantedAuthority, Serializable {
-    private static final long serialVersionUID = 123152L;
+public class Authority implements GrantedAuthority {
 
     private String authority;
 
     public Authority(String authority) {
         this.authority = authority;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
     }
 
     @Override

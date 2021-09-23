@@ -3,14 +3,11 @@ package com.ms.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-public class ShoppingCart implements Serializable {
-
-    private static final long serialVersionUID = 762934L;
+public class ShoppingCart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
