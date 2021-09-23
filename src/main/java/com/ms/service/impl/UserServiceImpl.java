@@ -73,7 +73,9 @@ public class UserServiceImpl implements UserService {
             user.setUserShippingList(new ArrayList<UserShipping>());
             user.setUserPaymentList(new ArrayList<UserPayment>());
 
-            // add shopping cart - TODO !!!
+            ShoppingCart shoppingCart = new ShoppingCart();
+            shoppingCart.setUser(user);
+            user.setShoppingCart(shoppingCart);
 
             newUser = userRepository.save(user);
         }

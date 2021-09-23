@@ -7,5 +7,5 @@ import com.ms.exceptions.UserPaymentNotFoundException;
 public interface UserPaymentService {
 
     UserPayment getById(int id) throws UserPaymentNotFoundException;
-    void deleteById(int id);
+    void remove(int id);
 }

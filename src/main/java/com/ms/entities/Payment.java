@@ -6,13 +6,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class UserPayment implements Serializable {
-
-    private static final long serialVersionUID = 680812L;
+public class Payment implements Serializable {
+    public static final long serialVersionUID = 854385L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String type;
     private String cardName;
     private int cardNumber;
@@ -22,18 +22,15 @@ public class UserPayment implements Serializable {
     private String cardHolderName;
     private boolean defaultPayment;
 
-    @ManyToOne
+    @OneToOne
     @JsonIgnore
-    private User user;
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userPayment")
-    private UserBilling userBilling;
+    private Order order;
 
     public int getId() {
         return id;
     }
 
-    public UserPayment setId(int id) {
+    public Payment setId(int id) {
         this.id = id;
         return this;
     }
@@ -42,7 +39,7 @@ public class UserPayment implements Serializable {
         return type;
     }
 
-    public UserPayment setType(String type) {
+    public Payment setType(String type) {
         this.type = type;
         return this;
     }
@@ -51,7 +48,7 @@ public class UserPayment implements Serializable {
         return cardName;
     }
 
-    public UserPayment setCardName(String cardName) {
+    public Payment setCardName(String cardName) {
         this.cardName = cardName;
         return this;
     }
@@ -60,7 +57,7 @@ public class UserPayment implements Serializable {
         return cardNumber;
     }
 
-    public UserPayment setCardNumber(int cardNumber) {
+    public Payment setCardNumber(int cardNumber) {
         this.cardNumber = cardNumber;
         return this;
     }
@@ -69,7 +66,7 @@ public class UserPayment implements Serializable {
         return expiryMonth;
     }
 
-    public UserPayment setExpiryMonth(String expiryMonth) {
+    public Payment setExpiryMonth(String expiryMonth) {
         this.expiryMonth = expiryMonth;
         return this;
     }
@@ -78,7 +75,7 @@ public class UserPayment implements Serializable {
         return expiryYear;
     }
 
-    public UserPayment setExpiryYear(String expiryYear) {
+    public Payment setExpiryYear(String expiryYear) {
         this.expiryYear = expiryYear;
         return this;
     }
@@ -87,7 +84,7 @@ public class UserPayment implements Serializable {
         return cvc;
     }
 
-    public UserPayment setCvc(int cvc) {
+    public Payment setCvc(int cvc) {
         this.cvc = cvc;
         return this;
     }
@@ -96,7 +93,7 @@ public class UserPayment implements Serializable {
         return cardHolderName;
     }
 
-    public UserPayment setCardHolderName(String cardHolderName) {
+    public Payment setCardHolderName(String cardHolderName) {
         this.cardHolderName = cardHolderName;
         return this;
     }
@@ -105,26 +102,17 @@ public class UserPayment implements Serializable {
         return defaultPayment;
     }
 
-    public UserPayment setDefaultPayment(boolean defaultPayment) {
+    public Payment setDefaultPayment(boolean defaultPayment) {
         this.defaultPayment = defaultPayment;
         return this;
     }
 
-    public User getUser() {
-        return user;
+    public Order getOrder() {
+        return order;
     }
 
-    public UserPayment setUser(User user) {
-        this.user = user;
-        return this;
-    }
-
-    public UserBilling getUserBilling() {
-        return userBilling;
-    }
-
-    public UserPayment setUserBilling(UserBilling userBilling) {
-        this.userBilling = userBilling;
+    public Payment setOrder(Order order) {
+        this.order = order;
         return this;
     }
 }

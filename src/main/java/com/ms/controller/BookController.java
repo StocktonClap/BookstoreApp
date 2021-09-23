@@ -41,12 +41,12 @@ public class BookController {
         return bookService.getBookById(id);
     }
 
-    @GetMapping("/search/title")
+    @GetMapping("/title")
     public List<Book> searchByTitle(@RequestBody String keyword) {
         return bookService.getBookByTitle(keyword);
     }
 
-    @GetMapping("/search/author")
+    @GetMapping("/author")
     public List<Book> searchByAuthor(@RequestBody String keyword) {
         return bookService.getBookByAuthor(keyword);
     }
@@ -57,7 +57,7 @@ public class BookController {
         return bookService.save(book);
     }
 
-    @PutMapping("/")
+    @PutMapping("/update")
     public Book updateBook(@RequestBody Book book) {
         bookService.save(book);
         return book;

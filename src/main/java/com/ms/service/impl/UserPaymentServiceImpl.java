@@ -25,7 +25,7 @@ public class UserPaymentServiceImpl implements UserPaymentService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void remove(int id) {
     userPaymentRepository.deleteById(id);
     }
 }
